@@ -1,0 +1,2 @@
+https://promptlyweb.azurewebsites.net/ The website MVC
+https://storypromptaprememberthis.azurewebsites.net/ The API
