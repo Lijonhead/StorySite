@@ -1,0 +1,23 @@
+﻿@model List<StorySite.Models.UserPostViewModel>
+
+<h2>Your Post History</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Content</th>
+            <th>Date Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var post in Model)
+        {
+            <tr>
+                <td>@post.Type</td>
+                <td>@post.Content</td>
+                <td>@post.DateCreated.ToString("MMMM dd, yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>

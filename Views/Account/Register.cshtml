@@ -1,0 +1,53 @@
+﻿@model StorySite.Models.RegisterViewModel
+
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%;">
+        <div class="card-body">
+            <h2 class="card-title text-center text-primary mb-4">Register</h2>
+
+            <form asp-action="Register" method="post">
+                <!-- Username -->
+                <div class="form-group mb-3">
+                    <label asp-for="UserName" class="form-label">Username</label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group mb-3">
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                </div>
+
+                <!-- Error Message -->
+                @if (ViewData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @ViewData["ErrorMessage"]
+                    </div>
+                }
+            </form>
+
+            <!-- Optional Links -->
+            <div class="text-center mt-4">
+                <p class="text-muted">
+                    Already have an account?
+                    <a asp-action="Login" asp-controller="Account" class="text-decoration-none text-primary">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

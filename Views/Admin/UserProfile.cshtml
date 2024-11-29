@@ -1,0 +1,14 @@
+﻿@model StorySite.Models.ProfileViewModel
+
+
+<div class="card mb-3">
+    <div class="card-body">
+        <p><strong>Description:</strong> @Model.Description</p>
+        <p><strong>Profile Created:</strong> @Model.ProfileCreated.ToString("MMMM dd, yyyy")</p>
+        <p><strong>Picture:</strong></p>
+        <img src="@Model.Picture" alt="Profile Picture" style="max-width: 200px;" />
+
+       
+        <a asp-action="UserPostHistory" asp-route-userId="@Model.UserId" class="btn btn-secondary">View Posts</a>
+    </div>
+</div>

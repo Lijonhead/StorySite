@@ -1,0 +1,44 @@
+﻿
+@model StorySite.Models.PromptViewModel
+
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="card shadow-lg p-4" style="max-width: 600px; width: 100%;">
+        <div class="card-body">
+            <h2 class="card-title text-center text-primary mb-4">Create a New Prompt</h2>
+
+            <form asp-action="Create" method="post">
+                <!-- Prompt Content -->
+                <div class="form-group mb-3">
+                    <label asp-for="PromptContent" class="form-label">Prompt Content</label>
+                    <textarea asp-for="PromptContent" class="form-control" rows="5" placeholder="Write your creative prompt here..."></textarea>
+                    <span asp-validation-for="PromptContent" class="text-danger"></span>
+                </div>
+
+                <!-- Hidden Inputs -->
+                <input type="hidden" asp-for="UserId" value="@User.FindFirst("sub")?.Value" />
+                <input type="hidden" asp-for="PromptDateCreated" value="@DateTime.UtcNow" />
+                <input type="hidden" asp-for="UserName" value="@User.FindFirst("unique_name")?.Value" />
+
+                <!-- Submit Button -->
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg">Create Prompt</button>
+                </div>
+
+                <!-- Error Message -->
+                @if (ViewData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @ViewData["ErrorMessage"]
+                    </div>
+                }
+            </form>
+
+            <!-- Back Link -->
+            <div class="text-center mt-4">
+                <a asp-action="List" asp-controller="Prompt" class="text-decoration-none text-primary">
+                    <i class="bi bi-arrow-left"></i> Back to Prompt List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

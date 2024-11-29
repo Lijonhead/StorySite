@@ -1,0 +1,93 @@
+﻿
+@model StorySite.Models.PromptDetailsViewModel
+
+<div class="container mt-5">
+    <!-- Prompt Section -->
+    <div class="mb-5">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h2 class="card-title text-primary">@Model.PromptContent</h2>
+                <p class="card-text text-muted">
+                    <strong>Author:</strong><a asp-action="DetailsOthers" asp-controller="Profile" asp-route-userId="@Model.UserId" asp-route-userName="@Model.UserName">@Model.UserName</a><br />
+                    <strong>Created:</strong> @Model.PromptDateCreated.ToString("MMMM dd, yyyy")
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <form asp-controller="PromptReaction" asp-action="React" method="post" class="d-inline">
+                            <input type="hidden" name="PromptId" value="@Model.Id" />
+                            <input type="hidden" name="Reaction" value="Like" />
+                            <button type="submit" class="btn btn-outline-success btn-sm">
+                                Like (@Model.Likes)
+                            </button>
+                        </form>
+                        <form asp-controller="PromptReaction" asp-action="React" method="post" class="d-inline">
+                            <input type="hidden" name="PromptId" value="@Model.Id" />
+                            <input type="hidden" name="Reaction" value="Dislike" />
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                Dislike (@Model.Dislikes)
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Create Story Button -->
+    <div class="mb-4 text-end">
+        <a asp-action="CreateStory" asp-controller="Story" asp-route-promptId="@Model.Id" class="btn btn-primary btn-lg">
+            Add Story
+        </a>
+    </div>
+
+    <!-- Stories Section -->
+    <h3 class="mb-4">Stories</h3>
+    @if (Model.Stories.Any())
+    {
+        @foreach (var story in Model.Stories)
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <p class="card-text">@story.StoryContent</p>
+                    <p class="card-text text-muted">
+                        <strong>Author:</strong> <a asp-action="Details" asp-controller="Profile" asp-route-userId="@story.UserId">@story.UserName</a> <br />
+                        <strong>Created:</strong> @story.StoryDateCreated.ToString("MMMM dd, yyyy")
+                        @if (story.UserId == User.FindFirst("sub")?.Value) // Check if the story belongs to the logged-in user
+                        {
+                            <a asp-action="Edit" asp-controller="Story" asp-route-id="@story.Id" class="btn btn-primary btn-sm">Edit</a>
+                            <form asp-action="Delete" asp-controller="Story" method="post" style="display:inline;">
+                                <input type="hidden" name="PromptId" value="@Model.Id" />
+                                <input type="hidden" name="StoryId" value="@story.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this story?')">Delete</button>
+                            </form>
+                        }
+
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <form asp-controller="StoryReaction" asp-action="ReactToStory" method="post" class="d-inline">
+                                <input type="hidden" name="StoryId" value="@story.Id" />
+                                <input type="hidden" name="promptId" value="@Model.Id" />
+                                <input type="hidden" name="reactionType" value="Like" />
+                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                    Like (@story.Likes)
+                                </button>
+                            </form>
+                            <form asp-controller="StoryReaction" asp-action="ReactToStory" method="post" class="d-inline">
+                                <input type="hidden" name="StoryId" value="@story.Id" />
+                                <input type="hidden" name="promptId" value="@Model.Id" />
+                                <input type="hidden" name="reactionType" value="Dislike" />
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                    Dislike (@story.Dislikes)
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">No stories have been added to this prompt yet.</p>
+    }
+</div>

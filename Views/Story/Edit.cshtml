@@ -1,0 +1,19 @@
+﻿@model StorySite.Models.StoryViewModel
+
+<h2>Edit Story</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="PromptId" />
+    <input type="hidden" asp-for="UserId" value="@User.FindFirst("sub")?.Value" />
+    <input type="hidden" asp-for="UserName" value="@User.FindFirst("unique_name")?.Value" />
+
+    <div class="mb-3">
+        <label asp-for="StoryContent" class="form-label"></label>
+        <textarea asp-for="StoryContent" class="form-control"></textarea>
+        <span asp-validation-for="StoryContent" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Details" asp-controller="Prompt" asp-route-id="@Model.PromptId" class="btn btn-secondary">Cancel</a>
+</form>

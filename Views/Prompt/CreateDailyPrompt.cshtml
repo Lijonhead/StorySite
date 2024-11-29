@@ -1,0 +1,14 @@
+﻿@model StorySite.Models.PromptViewModel
+
+<h2>Create a Daily Prompt</h2>
+<form asp-action="CreateDailyPrompt" method="post">
+    <div class="mb-3">
+        <input type="hidden" asp-for="UserId" value="@User.FindFirst("sub")?.Value" />
+        <input type="hidden" asp-for="PromptDateCreated" value="@DateTime.UtcNow" />
+        <input type="hidden" asp-for="UserName" value="@User.FindFirst("unique_name")?.Value" />
+        <label asp-for="PromptContent" class="form-label">Daily Prompt Content</label>
+        <textarea asp-for="PromptContent" class="form-control"></textarea>
+        <span asp-validation-for="PromptContent" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Daily Prompt</button>
+</form>
